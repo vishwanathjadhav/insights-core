@@ -260,10 +260,7 @@ class DefaultSpecs(Specs):
     @datasource(ProcMounts)
     def dumpdev(broker):
         mnt = broker[ProcMounts]
-        mounted_dev = [m.mounted_device for m in mnt if m.mount_type in ('ext2', 'ext3', 'ext4')]
-        if mounted_dev:
-            return mounted_dev
-        raise SkipComponent()
+        return [m.mounted_device for m in mnt if m.mount_type in ('ext2', 'ext3', 'ext4')]
 
     dumpe2fs_h = foreach_execute(dumpdev, "/sbin/dumpe2fs -h %s")
     engine_config_all = simple_command("/usr/bin/engine-config --all")
